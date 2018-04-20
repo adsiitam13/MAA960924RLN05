@@ -1,11 +1,19 @@
 package a.b.c.d.e.f;
 
+import org.apache.log4j.Logger;
+
 public class Solucion {
+    private final static Logger LOG = Logger.getLogger(Solucion.class);
+
     class Node{
+        private final Logger LOG = Logger.getLogger(Node.class);
+
         private String data;
         private Node next;
         
-
+        /**
+         * Constructor de la clase nodo.
+         */
         public Node(String data) {
             this.data = data;
         }
@@ -19,16 +27,21 @@ public class Solucion {
          *  @return Regresa la lista invertida a partir del nodo actual
          */
         public Node invertir() {
+            // guarda el siguiente nodo en sig
             Node sig=this.next;
-            Node aux=sig.invertir();
 
             if(next == null){
                 return this;
             }
-
+            
+            // pone el siguiente como nulo
             this.next = null;
-            sig.setNext(this);
 
+
+            // invierte la lista desde siguiente
+            Node aux=sig.invertir();
+            // a mi siguiente nodo le pongo como siguiente a mí mismo
+            sig.setNext(this);
             return aux;
         }
         /**
@@ -77,6 +90,7 @@ public class Solucion {
          *         
          */
         public void printList() {
+            LOG.info("Imprime lista");
             Node aux=this.next;
             String lista=this.data+"---->";
 
@@ -84,6 +98,8 @@ public class Solucion {
                 lista+=aux.getData()+"---->";
                 aux=aux.getNext();
             }
+
+            LOG.info(aux);
         }
         
     }// ends Node class
@@ -113,6 +129,8 @@ public class Solucion {
      * Prueba la funcionalidad de el metodo "invertir" con distintos casos de prueba.
      */
     public void ok() {
+        LOG.info("Se invoca el metodo ok");
+        LOG.info("LISTA A");
         Node a = build();
         a.printList();
         a = a.invertir();
@@ -120,10 +138,14 @@ public class Solucion {
         a = a.invertir();
         a.printList();
         
+        
+        LOG.info("LISTA B");
         Node b = new Node("X");
         b = b.invertir();
         b.printList();
         
+
+        LOG.info("LISTA C");
         Node c = new Node("X");
         Node d = new Node("Y");
         c.next = d;
@@ -135,7 +157,9 @@ public class Solucion {
      * Prueba el metodo ok de la clase Node.
      */
     public static void main(String...argv) {
+        LOG.info("Inicia ejecucuion");
         new Solucion().ok();
     }
+
 
 }
